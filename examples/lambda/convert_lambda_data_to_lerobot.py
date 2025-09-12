@@ -86,14 +86,22 @@ def main(data_dir: str, *, push_to_hub: bool = False):
         for trajectory_name, trajectory_group in hdf_file.items():
             print(f"Trajectory: {trajectory_name}")
             # Iterate through each timestep group within the trajectory
-            for index, (timestep_name, timestep_group) in enumerate(trajectory_group.items()):
+            for timestep_name, timestep_group in trajectory_group.items():
                 print(f"Step: {timestep_name}")
+
+                try:
+                    step_idx = int(timestep_name.split("_")[-1])
+                except ValueError:
+                    print(f"  Skipping {timestep_name}, no numeric suffix.")
+                    continue
+
+                print(f"index: {step_idx}")
 
                 # Read and decode the JSON metadata
                 metadata = json.loads(timestep_group.attrs['metadata'])
                 print(f"Metadata: {json.dumps(metadata, indent=4)}")
 
-                rgb_np = np.array(trajectory_group[timestep_name]['rgb_{}'.format(index)])
+                rgb_np = np.array(trajectory_group[timestep_name]['rgb_{}'.format(step_idx)])
                 rgb_image = Image.fromarray(rgb_np)
 
                 # dataset.add_frame(
