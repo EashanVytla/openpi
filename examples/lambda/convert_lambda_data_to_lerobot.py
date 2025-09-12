@@ -82,7 +82,7 @@ def main(data_dir: str, *, push_to_hub: bool = False):
     )
 
 
-    with h5py.File(data_dir, 'r') as hdf_file:
+    with h5py.File(str(data_path), 'r') as hdf_file:
         for trajectory_name, trajectory_group in hdf_file.items():
             print(f"Trajectory: {trajectory_name}")
             # Iterate through each timestep group within the trajectory
