@@ -664,7 +664,7 @@ _CONFIGS = [
         weight_loader=weight_loaders.CheckpointWeightLoader("gs://openpi-assets/checkpoints/pi0_base/params"),
         # Below you can define other hyperparameters like the learning rate, number of training steps, etc.
         # Check the base TrainConfig class for a full list of available hyperparameters.
-        num_train_steps=30_000,
+        num_train_steps=5_000,
     ),
     TrainConfig(
         name="pi0_libero_low_mem_finetune",
