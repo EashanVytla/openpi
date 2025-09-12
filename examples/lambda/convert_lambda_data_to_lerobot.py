@@ -91,7 +91,7 @@ def main(data_dir: str, *, push_to_hub: bool = False):
 
                 # Read and decode the JSON metadata
                 metadata = json.loads(timestep_group.attrs['metadata'])
-                print(f"Metadata: {metadata}")
+                print(f"Metadata: {timestep_group.attrs['metadata']}")
 
                 rgb_np = np.array(trajectory_group[timestep_name]['rgb_{}'.format(index)])
                 rgb_image = Image.fromarray(rgb_np)
