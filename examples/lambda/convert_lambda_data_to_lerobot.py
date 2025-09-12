@@ -28,10 +28,26 @@ import h5py
 import json
 import numpy as np
 from PIL import Image
+from pathlib import Path
+import os
 
 REPO_NAME = "EashanVytla/lambda"  # Name of the output dataset, also used for the Hugging Face Hub
 
 def main(data_dir: str, *, push_to_hub: bool = False):
+    raw_arg = data_dir
+    data_path = Path(os.path.expandvars(data_dir)).expanduser()
+    try:
+        data_path = data_path.resolve(strict=True)
+    except FileNotFoundError as e:
+        raise FileNotFoundError(
+            f"Data file not found.\n"
+            f"  --data_dir argument: {raw_arg}\n"
+            f"  Expanded & resolved: {data_path}\n"
+            f"Tips: If you quoted the path like --data_dir=\"~/file.hdf5\", "
+            f"the shell won’t expand ~. Either omit the quotes or just pass any form "
+            f"and let this script expand it."
+        ) from e
+
     # Clean up any existing dataset in the output directory
     output_path = HF_LEROBOT_HOME / REPO_NAME
     if output_path.exists():
