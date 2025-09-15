@@ -107,7 +107,7 @@ def main(data_dir: str, *, push_to_hub: bool = False):
                 dataset.add_frame(
                     {
                         "image": rgb_image,
-                        "state": metadata["steps"]["state_body"] + metadata["steps"]["state_ee"] + [1.0 if metadata["steps"]["held_objs"] else 0.0],
+                        "state": metadata["steps"][0]["state_body"] + metadata["steps"][0]["state_ee"] + [1.0 if metadata["steps"][0]["held_objs"] else 0.0],
                         "actions": metadata["action"],
                         "task": metadata["nl_command"],
                     }
