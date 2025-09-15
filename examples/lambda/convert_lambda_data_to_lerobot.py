@@ -68,7 +68,7 @@ def main(data_dir: str, *, push_to_hub: bool = False):
             },
             "state": {
                 "dtype": "float32",
-                "shape": (8,),
+                "shape": (10,),
                 "names": ["state"],
             },
             "actions": {
@@ -104,15 +104,15 @@ def main(data_dir: str, *, push_to_hub: bool = False):
                 rgb_np = np.array(trajectory_group[timestep_name]['rgb_{}'.format(step_idx)])
                 rgb_image = Image.fromarray(rgb_np)
 
-                # dataset.add_frame(
-                #     {
-                #         "image": rgb_image,
-                #         "state": step["observation"]["state"],
-                #         "actions": metadata["action"],
-                #         "task": metadata["nl_command"],
-                #     }
-                # )
-                # dataset.save_episode()
+                dataset.add_frame(
+                    {
+                        "image": rgb_image,
+                        "state": metadata["steps"]["state_body"] + metadata["steps"]["state_ee"] + [1.0 if metadata["steps"]["held_objs"] else 0.0],
+                        "actions": metadata["action"],
+                        "task": metadata["nl_command"],
+                    }
+                )
+                dataset.save_episode()
 
 
     # Optionally push to the Hugging Face Hub
